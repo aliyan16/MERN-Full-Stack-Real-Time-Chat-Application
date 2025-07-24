@@ -6,11 +6,12 @@ const RegisterAccountsSchema=new mongoose.Schema({
     lastName:{type:String,required:true},
     email:{type:String,required:true,unique:true},
     password:{type:String,required:true},
-    dob:{
-        day:{type:Number,required:true},
-        month:{type:String,required:true},
-        year:{type:String,required:true}
-    },
+    // dob:{
+    //     day:{type:Number,required:true},
+    //     month:{type:String,required:true},
+    //     year:{type:String,required:true}
+    // },
+    dob:{type:Date,required:true},
     gender:{type:String,required:true},
     profilePic:{
         fileId:mongoose.Schema.Types.ObjectId,

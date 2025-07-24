@@ -56,10 +56,10 @@ app.post('/register',async(req,res)=>{
 
 app.post('/message',upload.single('media'),async(req,res)=>{
     try{
-        const {sender,reciever,content,seen,seenAt}=req.body
+        const {sender,receiver,content,seen,seenAt}=req.body
         const newMessageData={
             sender,
-            reciever,
+            receiver,
             content,
             seen,
             seenAt
@@ -97,3 +97,6 @@ app.post('/message',upload.single('media'),async(req,res)=>{
     }
 })
 
+app.listen(port,()=>{
+    console.log(`backend is running on port ${port}`)
+})

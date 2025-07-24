@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
+  const navigate=useNavigate()
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
@@ -28,10 +30,10 @@ function SignIn() {
 
         <div className="mt-4 text-center">
           <a
-            href="/"
-            className="text-sm text-blue-600 hover:underline"
+            onClick={()=>navigate('/register')}
+            className="text-sm text-blue-600 hover:underline cursor-pointer"
           >
-            Forgot Password?
+            Or Create Account
           </a>
         </div>
       </div>
