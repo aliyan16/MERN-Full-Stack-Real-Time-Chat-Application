@@ -1,21 +1,53 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function SignIn() {
+function SignIn({setCurrentUser}) {
   const navigate=useNavigate()
+  const [signInData,setSignInData]=useState({
+    email:'',
+    password:''
+  })
+
+  const handleChange=async(e)=>{
+    setSignInData(prev=>({
+      ...prev,
+      [e.target.name]:e.target.value
+    }))
+  }
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault()
+    try{
+      const res=await axios.post('http://localhost:5000/signin',signInData)
+      alert(res.data.message || 'SignIn Successful')
+      setCurrentUser(res.data.user)
+
+
+    }catch(e){
+      console.error('SignIn failed: ',e)
+      alert(e.response?.data?.error)
+    }
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Sign In</h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <input
             type="email"
+            name="email"
+            value={signInData.email}
+            onChange={handleChange}
             placeholder="Enter Email"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <input
             type="password"
+            name="password"
+            value={signInData.password}
+            onChange={handleChange}
             placeholder="Enter Password"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

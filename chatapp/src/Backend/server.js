@@ -54,6 +54,35 @@ app.post('/register',async(req,res)=>{
     }
 })
 
+app.post('/signin',async(req,res)=>{
+    try{
+        const {email,password}=req.body
+        const user=await RegisterAccounts.findOne({email})
+        if(!user){
+            return res.status(404).json({error:"User not Found"})
+        }
+        const isMatch=await bcrypt.compare(password,user.password)
+        if(!isMatch){
+            return res.status(400).json({error:'Invalid Email/Password'})
+        }
+        res.json({
+            message:'SignIn Successful',
+            user:{
+                _id:user._id,
+                firstName:user.firstName,
+                lastName:user.lastName,
+                email:user.email,
+                profilePic:user.profilePic
+            }
+        })
+
+    }catch(e){
+        console.error('Could not SignIn')
+        res.status(500).json({error:'Server error'})
+
+    }
+})
+
 app.post('/message',upload.single('media'),async(req,res)=>{
     try{
         const {sender,receiver,content,seen,seenAt}=req.body
