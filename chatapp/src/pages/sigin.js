@@ -23,6 +23,8 @@ function SignIn({setCurrentUser}) {
       alert(res.data.message || 'SignIn Successful')
       setCurrentUser(res.data.user)
 
+      navigate('/home')
+
 
     }catch(e){
       console.error('SignIn failed: ',e)
