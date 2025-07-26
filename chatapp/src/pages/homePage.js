@@ -52,7 +52,7 @@ function HomePage({currentUser}){
     },[currentUser,selectedChat])
 
     const sendMessage=async(content)=>{
-        if(content.trim()||!selectedChat){return}
+        if(!content.trim()||!selectedChat){return}
         try{
             const newMessage={
                 sender:currentUser._id,
@@ -61,11 +61,7 @@ function HomePage({currentUser}){
                 seen:false
             }
             const res=await axios.post('http://localhost:5000/message',newMessage)
-            setMessages(prev=>[...prev,{
-                ...newMessage,
-                _id:Date.now().toString(),
-                createdAt:new Date()
-            }])
+            setMessages(prev=>[...prev,res.data])
             socket.emit('send-message',newMessage)
         }catch(e){
             console.error('Couldnot send message: ',e)

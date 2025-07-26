@@ -56,6 +56,18 @@ io.on('connection',(socket)=>{
         await RegisterAccounts.findByIdAndUpdate(userId,{IsActive:true})
         io.emit('update-users')
     })
+
+    socket.on('send-message',async(message)=>{
+        try{
+            const newMessage=new Message(message)
+            await newMessage.save()
+            io.emit('new-message',newMessage)
+        }catch(e){
+            console.error('Error saving message: ',e)
+
+        }
+    })
+
     socket.on('disconnect',async()=>{
         const userId=socket.userId
         if(userId){
@@ -167,6 +179,23 @@ app.get('/get-users',async(req,res)=>{
     }catch(e){
         console.error('Error fetching users: ',e)
         res.status(500).json({error:'Server Error'})
+    }
+})
+
+app.get('/messages',async(req,res)=>{
+    try{
+        const {userId,contactId}=req.query
+        const messages=await Message.find({
+            $or:[
+                {sender:userId,receiver:contactId},
+                {sender:contactId,receiver:userId}
+            ]
+        }).sort({createdAt:1})
+        res.json(messages)
+    }catch(e){
+        console.error('Error fetching messages: ',e)
+        res.status(500).json({error:"Server error"})
+
     }
 })
 

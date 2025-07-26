@@ -12,7 +12,10 @@ const MessageSchema=new mongoose.Schema({
     },
     seen:{type:Boolean,default:false},
     seenAt:{type:Date,default:Date.now()}
-})
+},{
+    timestamps:true
+}
+)
 
 
 module.exports=mongoose.model('Message',MessageSchema)

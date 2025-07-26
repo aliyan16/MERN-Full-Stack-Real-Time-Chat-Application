@@ -1,11 +1,12 @@
-import react, { useEffect, useState } from "react";
+import react, { useEffect, useRef, useState } from "react";
 
 
 
 
 function ChatBox({chatUser,messages,onSendMessage,currentUser}){
-    const [messages,setMessages]=useState([])
+    // const [messages,setMessages]=useState([])
     const [input,setInput]=useState('')
+    const messagesEndRef=useRef(null)
 
     const handleSend=()=>{
         if(input.trim()){
