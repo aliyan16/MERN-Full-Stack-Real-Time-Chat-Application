@@ -11,6 +11,9 @@ const {GridFsStorage}=require('multer-gridfs-storage')
 
 const upload=multer({storage:multer.memoryStorage()})
 
+const http=require('http')
+const {Server}=require('socket.io')
+
 const app=express()
 const port=5000
 
@@ -35,6 +38,36 @@ mongoose.connection.on('error',()=>{
     console.log('Database connection error')
 })
 
+const server=new http.createServer(app)
+const io=new Server(server,{
+    cors:{
+        origin:'http://localhost:3000',
+        methods:['GET,POST']
+    }
+})
+
+const onlineUsers=new Set()
+
+io.on('connection',(socket)=>{
+    console.log('A user connected')
+    socket.on('user-online',async(userId)=>{
+        socket.userId=userId
+        onlineUsers.add(userId)
+        await RegisterAccounts.findByIdAndUpdate(userId,{IsActive:true})
+        io.emit('update-users')
+    })
+    socket.on('disconnecting',async()=>{
+        const userId=socket.userId
+        if(userId){
+            onlineUsers.delete(userId)
+            await RegisterAccounts.findByIdAndUpdate(userId,{
+                IsActive:false,
+                lastSeen:new Date()
+            })
+            io.emit('update-users')
+        }
+    })
+})
 
 app.post('/register',async(req,res)=>{
     try{
@@ -126,6 +159,17 @@ app.post('/message',upload.single('media'),async(req,res)=>{
     }
 })
 
-app.listen(port,()=>{
+app.get('/get-users',async(req,res)=>{
+    try{
+        const users=await RegisterAccounts.find({},'firstName lastName profilePic IsActive lastSeen')
+        res.json(users)
+
+    }catch(e){
+        console.error('Error fetching users: ',e)
+        res.status(500).json({error:'Server Error'})
+    }
+})
+
+server.listen(port,()=>{
     console.log(`backend is running on port ${port}`)
 })

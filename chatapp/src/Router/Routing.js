@@ -11,7 +11,7 @@ function Routing(){
         <Routes>
             <Route path="/register" element={<Register/>} />
             <Route path="/" element={<SignIn setCurrentUser={setCurrentUser} />} />
-            <Route path="/home" element={<HomePage/>} />
+            <Route path="/home" element={<HomePage currentUser={currentUser} />} />
         </Routes>
         </>
     )
