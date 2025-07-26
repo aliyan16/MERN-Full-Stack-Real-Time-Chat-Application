@@ -39,7 +39,7 @@ function HomePage({currentUser}){
             fetchUsers()
         })
         return ()=>{
-            socket.disconnect()
+            socket.off('update-users')
         }
     },[currentUser])
     

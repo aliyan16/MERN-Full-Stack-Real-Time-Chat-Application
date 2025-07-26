@@ -56,7 +56,7 @@ io.on('connection',(socket)=>{
         await RegisterAccounts.findByIdAndUpdate(userId,{IsActive:true})
         io.emit('update-users')
     })
-    socket.on('disconnecting',async()=>{
+    socket.on('disconnect',async()=>{
         const userId=socket.userId
         if(userId){
             onlineUsers.delete(userId)
