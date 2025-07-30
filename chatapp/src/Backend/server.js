@@ -263,13 +263,13 @@ app.get('/chat-list/:userId',async(req,res)=>{
     }
 })
 
-app.get('media/:id',async(req,res)=>{
+app.get('/media/:id',async(req,res)=>{
     try{
         const fileId=mongoose.Types.ObjectId(req.params.id)
         if(!fileId){
             return res.status(400).json({message:'Invalid file ID'})
         }
-        const file=new mongoose.connection.db.collection('uploads.files').findOne({_id:fileId})
+        const file=await mongoose.connection.db.collection('uploads.files').findOne({_id:fileId})
         if(!file){
             return res.status(404).json({message:'File not found'})
         }

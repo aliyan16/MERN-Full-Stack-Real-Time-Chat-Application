@@ -60,6 +60,7 @@ function HomePage({currentUser}){
             if((message.sender===selectedChat?._id && message.receiver===currentUser._id) || (message.receiver===selectedChat?._id && message.sender===currentUser._id)){
                 setMessages(prev=>[...prev,message])
             }
+            fetchChats()
         })
         return ()=>{
             socket.off('update-users')
@@ -79,6 +80,7 @@ function HomePage({currentUser}){
             const res=await axios.post('http://localhost:5000/message',newMessage)
             setMessages(prev=>[...prev,res.data])
             socket.emit('send-message',newMessage)
+            fetchChats()
         }catch(e){
             console.error('Couldnot send message: ',e)
 
