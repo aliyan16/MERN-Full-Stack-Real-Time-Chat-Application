@@ -68,24 +68,27 @@ function HomePage({currentUser}){
         }
     },[currentUser,selectedChat])
 
-    const sendMessage=async(content)=>{
-        if(!content.trim()||!selectedChat){return}
-        try{
-            const newMessage={
-                sender:currentUser._id,
-                receiver:selectedChat._id,
-                content:content,
-                seen:false
-            }
-            const res=await axios.post('http://localhost:5000/message',newMessage)
-            setMessages(prev=>[...prev,res.data])
-            socket.emit('send-message',newMessage)
-            fetchChats()
-        }catch(e){
-            console.error('Couldnot send message: ',e)
+    const sendMessage = async (content, media = null) => {
+        if ((!content.trim() && !media) || !selectedChat) return;
 
+        try {
+            const formData = new FormData();
+            formData.append("sender", currentUser._id);
+            formData.append("receiver", selectedChat._id);
+            formData.append("content", content);
+            if (media) formData.append("media", media);
+
+            await fetch("http://localhost:5000/message", {
+            method: "POST",
+            body: formData,
+            });
+
+            // DO NOT call setMessages here — rely on socket to update
+        } catch (e) {
+            console.error("Could not send message: ", e);
         }
-    }
+    };
+
     
 
 

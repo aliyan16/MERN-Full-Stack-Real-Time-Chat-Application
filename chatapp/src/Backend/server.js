@@ -162,7 +162,8 @@ app.post('/message',upload.single('media'),async(req,res)=>{
         else{
             const newMessage=new Message(newMessageData)
             await newMessage.save()
-            res.status(201).json({message:'Message sent successfully'})
+            io.emit('new-message',newMessage)
+            res.status(201).json(newMessage)
         }
 
     }catch(e){
@@ -224,7 +225,7 @@ app.get('/chat-list/:userId',async(req,res)=>{
                                     '$sender',new mongoose.Types.ObjectId(userId)
                                 ]
                             },
-                            '$reciever',
+                            '$receiver',
                             '$sender'
 
                         ]

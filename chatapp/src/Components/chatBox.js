@@ -29,6 +29,7 @@ function ChatBox({chatUser,messages,onSendMessage,currentUser}){
             if (res.ok) {
             setInput("");
             setMedia(null);
+            // onSendMessage(input)
             }
         } catch (err) {
             console.error("Failed to send message", err);
