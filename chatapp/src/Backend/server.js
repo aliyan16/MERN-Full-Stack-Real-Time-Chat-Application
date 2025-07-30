@@ -263,6 +263,25 @@ app.get('/chat-list/:userId',async(req,res)=>{
     }
 })
 
+app.get('media/:id',async(req,res)=>{
+    try{
+        const fileId=mongoose.Types.ObjectId(req.params.id)
+        if(!fileId){
+            return res.status(400).json({message:'Invalid file ID'})
+        }
+        const file=new mongoose.connection.db.collection('uploads.files').findOne({_id:fileId})
+        if(!file){
+            return res.status(404).json({message:'File not found'})
+        }
+        const downloadStream=gfs.openDownloadStream(file._id)
+        res.set('Content-Type',file.contentType)
+        downloadStream.pipe(res)
+    }catch(e){
+        console.error('Error fetching file')
+        res.status(500).json({error:'Server error'})
+    }
+})
+
 
 server.listen(port,()=>{
     console.log(`backend is running on port ${port}`)
