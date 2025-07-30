@@ -20,11 +20,11 @@ function ChatBox({chatUser,messages,onSendMessage,currentUser}){
     return(
         <>
         <div className="flex flex-col h-full">
-            <div className="text-xl font-semibold mb-4">
+            <div className="text-xl font-semibold mb-4 text-white">
                 {chatUser.firstName} {chatUser.lastName}
                 <span className={`inline-block w-2 h-2 ml-2  rounded-full ${chatUser.IsActive?'bg-green-500':'bg-gray-400'}`}></span>
             </div>
-            <div className="flex-1 overflow-y-auto space-y-2 border p-4 rounded-lg bg-gray-50">
+            <div className="flex-1 overflow-y-auto space-y-2 border border-black p-4 rounded-lg bg-gray-700">
 
                 {messages.map((msg)=>(
                     <div key={msg._id} className={`p-2 rounded-md w-fit ${msg.sender===currentUser._id?'bg-blue-100 ml-auto':'bg-gray-200'}`}>

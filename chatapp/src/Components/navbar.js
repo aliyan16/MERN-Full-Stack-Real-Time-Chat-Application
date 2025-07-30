@@ -7,11 +7,14 @@ function Navbar({currentUser}){
     const navigate=useNavigate()
     return(
         <>
-        <header>
-            <div>
-                <FaHome onClick={()=>navigate('/home')} />
+        <header className="flex items-center justify-between p-2 bg-black shadow-md sticky top-0 z-50">
+            <span>
+                
+            </span>
+            <div className="space-x-2" >
+                <FaHome onClick={()=>navigate('/home')} className="text-white text-3xl cursor-pointer" />
             </div>
-            <div>
+            <div className="space-x-8 text-white text-2xl">
                 <ProfileDropDown currentUser={currentUser} />
             </div>
         </header>

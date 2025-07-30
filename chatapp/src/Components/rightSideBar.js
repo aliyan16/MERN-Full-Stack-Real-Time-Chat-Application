@@ -5,7 +5,7 @@ import ChatBox from "./chatBox";
 function RightSideBar({selectedChat,messages,onSendMessage,currentUser}){
     return(
         <>
-        <div className="flex-1 bg-white p-6">
+        <div className="flex-1 bg-gray-700 p-6">
             {selectedChat?(
                 <ChatBox chatUser={selectedChat} messages={messages} onSendMessage={onSendMessage} currentUser={currentUser} />
             ):(
