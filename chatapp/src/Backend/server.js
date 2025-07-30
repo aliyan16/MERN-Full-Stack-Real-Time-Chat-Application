@@ -199,6 +199,71 @@ app.get('/messages',async(req,res)=>{
     }
 })
 
+
+app.get('/chat-list/:userId',async(req,res)=>{
+    try{
+        const {userId}=req.params
+        const chats=await Message.aggregate([
+            {
+                $match:{
+                    $or:[
+                        {sender:new mongoose.Types.ObjectId(userId)},
+                        {receiver:new mongoose.Types.ObjectId(userId)}
+                    ]
+                }
+            },
+            {
+                $sort:{createdAt:-1}
+            },
+            {
+                $group:{
+                    _id:{
+                        $cond:[
+                            {
+                                $eq:[
+                                    '$sender',new mongoose.Types.ObjectId(userId)
+                                ]
+                            },
+                            '$reciever',
+                            '$sender'
+
+                        ]
+                    },
+                    lastMessage:{$first:'$$ROOT'}
+                },
+            },
+            {
+                $lookup:{
+                    from:'registeraccounts',
+                    localField:'_id',
+                    foreignField:'_id',
+                    as:'user'
+                }
+            },
+            {
+                $unwind:'$user'
+            },
+            {
+                $project:{
+                    _id:'$user._id',
+                    firstName:'$user.firstName',
+                    lastName:'$user.lastName',
+                    profilePic:'$user.profilePic',
+                    IsActive:'$user.IsActive',
+                    lastSeen:'$user.lastSeen',
+                    lastMessage:1
+                }
+            }
+        ])
+        res.json(chats)
+    }catch(e){
+        console.error('Error fetching chatlist: ',e)
+        res.status(500).json({error:'Server Error'})
+
+    }
+})
+
+
 server.listen(port,()=>{
     console.log(`backend is running on port ${port}`)
 })
