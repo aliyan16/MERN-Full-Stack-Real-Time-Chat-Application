@@ -22,6 +22,7 @@ function HomePage({currentUser}){
         }
         
     }
+
     const fetchUsers=async()=>{
         try{
             const users=await axios.get('http://localhost:5000/get-users')
@@ -31,7 +32,22 @@ function HomePage({currentUser}){
             console.error('Couldnot Fetch Users: ',e)
         }
     }
+
+    const fetchChats=async()=>{
+        try{
+            const res=await axios.get(`http://localhost:5000/chat-list/${currentUser._id}`)
+            setChatList(res.data)
+        }catch(e){
+            console.error('Error fetching chat list')
+
+        }
+    }
     useEffect(()=>{fetchUsers()},[])
+    useEffect(()=>{
+        if(currentUser?._id){
+            fetchChats()
+        }
+    },[currentUser])
 
     useEffect(()=>{
         if(currentUser?._id){

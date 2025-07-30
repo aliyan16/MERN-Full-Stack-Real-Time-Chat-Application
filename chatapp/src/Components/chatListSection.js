@@ -9,7 +9,8 @@ function ChatListSection({chats,onChatClick}){
             <div className="space-y-1">
                 {chats.map((chat)=>(
                     <div key={chat._id} onClick={()=>onChatClick(chat)} className="cursor-pointer p-2 bg-white rounded-lg shadow hover:bg-blue-100">
-                        {chat.name}
+                        <div className="font-semibold">{chat.firstName} {chat.lastName}</div>
+                        <div className="text-sm text-gray-500 truncate">{chat.lastMessage?.content || 'Media'}</div>
 
                     </div>
                 ))}
