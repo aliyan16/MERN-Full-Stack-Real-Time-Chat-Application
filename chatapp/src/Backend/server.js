@@ -155,7 +155,8 @@ app.post('/message',upload.single('media'),async(req,res)=>{
                 }
                 const newMessage=new Message(newMessageData)
                 await newMessage.save()
-                res.status(201).json({message:'Message sent successfully'})
+                io.emit('new-message',newMessage)
+                res.status(201).json(newMessage)
             })
 
         }
@@ -264,12 +265,31 @@ app.get('/chat-list/:userId',async(req,res)=>{
     }
 })
 
+// app.get('/media/:id',async(req,res)=>{
+//     try{
+//         const fileId=mongoose.Types.ObjectId(req.params.id)
+//         if(!fileId){
+//             return res.status(400).json({message:'Invalid file ID'})
+//         }
+//         const file=await mongoose.connection.db.collection('uploads.files').findOne({_id:fileId})
+//         if(!file){
+//             return res.status(404).json({message:'File not found'})
+//         }
+//         const downloadStream=gfs.openDownloadStream(file._id)
+//         res.set('Content-Type',file.contentType)
+//         downloadStream.pipe(res)
+//     }catch(e){
+//         console.error('Error fetching file')
+//         res.status(500).json({error:'Server error'})
+//     }
+// })
+
 app.get('/media/:id',async(req,res)=>{
     try{
-        const fileId=mongoose.Types.ObjectId(req.params.id)
-        if(!fileId){
+        if(!mongoose.Types.ObjectId.isValid(req.params.id)){
             return res.status(400).json({message:'Invalid file ID'})
         }
+        const fileId=new mongoose.Types.ObjectId(req.params.id)
         const file=await mongoose.connection.db.collection('uploads.files').findOne({_id:fileId})
         if(!file){
             return res.status(404).json({message:'File not found'})
@@ -278,8 +298,10 @@ app.get('/media/:id',async(req,res)=>{
         res.set('Content-Type',file.contentType)
         downloadStream.pipe(res)
     }catch(e){
-        console.error('Error fetching file')
-        res.status(500).json({error:'Server error'})
+        console.log('Error fetching media',e)
+        res.status(500).send('Error fetching media')
+
+
     }
 })
 

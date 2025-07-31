@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 
 
 
-
 function ChatBox({chatUser,messages,onSendMessage,currentUser}){
     // const [messages,setMessages]=useState([])
     const [input,setInput]=useState('')
@@ -69,7 +68,7 @@ function ChatBox({chatUser,messages,onSendMessage,currentUser}){
                 <div ref={messagesEndRef} />
 
             </div>
-            <div className="mt-4 flex items-center space-x-2">
+            <div className="mt-4 flex items-center space-x-2 space-y-5 mb-8">
                 {/* <input type="text" className="flex-1 border rounded-l px-4 py-2" value={input} onChange={(e)=> setInput(e.target.value)} placeholder="Type a message" onKeyPress={(e)=>e.key==='Enter' && handleSend()} /> */}
                 <input
                     type="text"
@@ -87,11 +86,11 @@ function ChatBox({chatUser,messages,onSendMessage,currentUser}){
                     className="hidden"
                     id="file-upload"
                 />
-                <label htmlFor="file-upload" className="bg-gray-300 px-3 py-2 rounded cursor-pointer">
+                <label htmlFor="file-upload" className="bg-gray-300 px-3 py-2 rounded cursor-pointer p-5">
                     📎
                 </label>
 
-                <button onClick={handleSend} className="bg-blue-600 text-white px-4 rounded-r-lg">
+                <button onClick={handleSend} className="bg-blue-600 text-white px-4 rounded-r-lg p-3">
                     Send
                 </button>
 
