@@ -13,6 +13,7 @@ const upload=multer({storage:multer.memoryStorage()})
 
 const http=require('http')
 const {Server}=require('socket.io')
+const { error } = require('console')
 
 const app=express()
 const port=5000
@@ -304,6 +305,24 @@ app.get('/media/:id',async(req,res)=>{
 
     }
 })
+
+app.get('/get-user-profile/:userId',async(req,res)=>{
+    try{
+        const {userId}=req.params
+        if(!mongoose.Types.ObjectId.isValid(userId)){
+            return res.status(400).json({error:'Invalid User Id'})
+        }
+        const user=await RegisterAccounts.findById(userId,'profilePic statusMessage')
+        if(!user){
+            return res.status(404).json({error:'User not found'})
+        }
+        res.json(user)
+    }catch(e){
+        console.error('Error fetching user profile pic')
+        res.status(500).json({error:'Server error'})
+    }
+})
+
 
 
 server.listen(port,()=>{
