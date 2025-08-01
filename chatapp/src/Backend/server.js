@@ -351,6 +351,19 @@ app.post('/update-user-profilePic/:userId', upload.single('media'),async(req,res
     }
 })
 
+app.post('/update-user-status/:userId',async(req,res)=>{
+    try{
+        const {userId}=req.params
+        const {statusMessage}=req.body
+        const user=await RegisterAccounts.findByIdAndUpdate(userId,{statusMessage})
+        if(!user){return res.status(404).json({error:'User not found'})}
+        res.json({message:'Status updated'})
+    }catch(e){
+        console.error('Error updating user status')
+        res.status(500).json({error:'Server error'})
+    }
+})
+
 
 
 server.listen(port,()=>{

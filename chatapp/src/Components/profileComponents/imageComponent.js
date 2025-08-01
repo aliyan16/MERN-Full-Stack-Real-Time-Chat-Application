@@ -21,10 +21,10 @@ function ImageComponent({userId,profilePic,fetchUserProfile}){
     return(
         <>
         <div>
-            <div className="absolute left-8 top-1/4">
+            <div className="flex flex-col items-center space-y-2">
                 <div className="relative">
-                    <img src={profilePic} alt="profile pic" className="w-32 h-32 rounded-full border-4 border-white object-cover" />
-                    <label className="absolute bottom-0 right-0 bg-white text-xs px-1 rounded-full py-0.5 cursor-pointer shadow">
+                    <img src={profilePic} alt="profile pic" className="w-32 h-32 rounded-full border-4 border-white object-cover shadow" />
+                    <label className="absolute bottom-1 right-1 bg-white text-xs px-1 rounded-full py-0.5 cursor-pointer shadow">
                         ✎
                         <input type="file" accept="image/*" hidden onChange={(e)=>uploadPic(e)} />
                     </label>
