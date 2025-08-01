@@ -119,7 +119,8 @@ app.post('/signin',async(req,res)=>{
                 lastName:user.lastName,
                 email:user.email,
                 profilePic:user.profilePic,
-                statusMessage:user.statusMessage
+                statusMessage:user.statusMessage,
+                lastSeen:user.lastSeen
             }
         })
 

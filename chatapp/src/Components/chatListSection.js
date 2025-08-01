@@ -11,7 +11,7 @@ function ChatListSection({chats,onChatClick}){
                 {chats.map((chat)=>(
                     <div key={chat._id} onClick={()=>onChatClick(chat)} className="items-center cursor-pointer flex space-x-2 p-2 bg-black text-white rounded-lg shadow hover:bg-blue-100 hover:text-black">
                         {chat.profilePic?(
-                            <FaUser/>
+                            <img src={`http://localhost:5000/media/${chat.profilePic.fileId}`} alt="profile" className="object-cover rounded-full w-8 h-8"/>
                         ):(
                             <FaUser/>
                         )}

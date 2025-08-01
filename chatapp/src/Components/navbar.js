@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import ProfileDropDown from "./profileDropDown"
 
 
-function Navbar({currentUser}){
+function Navbar({currentUser,setCurrentUser}){
     const navigate=useNavigate()
     return(
         <>
@@ -15,7 +15,7 @@ function Navbar({currentUser}){
                 <FaHome onClick={()=>navigate('/home')} className="text-white text-3xl cursor-pointer" />
             </div>
             <div className="space-x-8 text-white text-2xl">
-                <ProfileDropDown currentUser={currentUser} />
+                <ProfileDropDown currentUser={currentUser} setCurrentUser={setCurrentUser}/>
             </div>
         </header>
         </>

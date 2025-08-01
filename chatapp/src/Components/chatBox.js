@@ -44,6 +44,11 @@ function ChatBox({chatUser,messages,onSendMessage,currentUser}){
             <div className="text-xl font-semibold mb-4 text-white">
                 {chatUser.firstName} {chatUser.lastName}
                 <span className={`inline-block w-2 h-2 ml-2  rounded-full ${chatUser.IsActive?'bg-green-500':'bg-gray-400'}`}></span>
+                {!chatUser.IsActive && chatUser.lastSeen &&(
+                    <span className="text-xs text-white ml-2">
+                        {new Date(chatUser.lastSeen).toLocaleString()}
+                    </span>
+                )}
             </div>
             <div className="flex-1 overflow-y-auto space-y-2 border border-black p-4 rounded-lg bg-gray-700">
 

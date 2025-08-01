@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 
 
-function ProfileDropDown({currentUser}){
+function ProfileDropDown({currentUser,setCurrentUser}){
     const [isOpen,setIsOpen]=useState(false)
     const navigate=useNavigate()
     const dropDownRef=useRef(null)
@@ -43,7 +43,7 @@ function ProfileDropDown({currentUser}){
                         <FaUserCircle className="mr-2"/>
                         Profile
                     </button>
-                    <button onClick={()=>navigate('/')} className="flex items-center px-4 py-3 text-sm text-white hover:bg-gray-100 hover:text-black w-full text-left">
+                    <button onClick={()=>{setCurrentUser(null); navigate('/');}} className="flex items-center px-4 py-3 text-sm text-white hover:bg-gray-100 hover:text-black w-full text-left">
                         Logout
                     </button>
                 </div>

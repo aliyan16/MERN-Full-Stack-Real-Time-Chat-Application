@@ -13,7 +13,7 @@ function Routing(){
     return(
         <>
         <div className="flex flex-col h-screen" >
-            { !isAuthPage && <Navbar currentUser={currentUser}/>}
+            { !isAuthPage && <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser}/>}
             <Routes>
                 <Route path="/register" element={<Register/>} />
                 <Route path="/" element={<SignIn setCurrentUser={setCurrentUser} />} />
