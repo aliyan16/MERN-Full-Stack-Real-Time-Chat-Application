@@ -33,13 +33,16 @@ function UserProfile({currentUser}){
     },[userId])
     return(
         <>
-        <div className="bg-gray-700 min-h-screen">
-            <div className="bg-white w-1/12 rounded-md text-center ml-12 mt-20">
-                <h3 className="text-gray-800">Hello {currentUser.lastName} !</h3>
+        <div className="bg-gray-700 min-h-screen flex flex-col items-center pt-20 space-y-6">
+            <div className="bg-white px-6 py-2 rounded-md text-center shadow">
+                <h3 className="text-gray-800 text-xl font-semibold">Hello {currentUser.lastName} !</h3>
             </div>
-            <ImageComponent userId={userId} profilePic={profilePic}  fetchUserProfile={fetchUserProfile}/>
-            <UserStatus currentUser={currentUser} />
+            <div className="flex flex-col items-center space-y-4 bg-white p-6 rounded-xl shadow-md">
+                <ImageComponent userId={userId} profilePic={profilePic}  fetchUserProfile={fetchUserProfile}/>
+                <UserStatus currentUser={currentUser} userStatus={userStatus} setUserStatus={setUserStatus} fetchUserProfile={fetchUserProfile}/>
 
+            </div>
+            
         </div>
         </>
     )
