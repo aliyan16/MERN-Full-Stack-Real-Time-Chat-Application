@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 function UserProfile({currentUser}){
     const [profilePic,setProfilePic]=useState(null)
     const [userStatus,setUserStatus]=useState('')
-    const {userId}=useParams()
+    const userId=currentUser._id
 
     const fetchUserProfile=async()=>{
         try{
@@ -33,7 +33,7 @@ function UserProfile({currentUser}){
     return(
         <>
         <div className="bg-gray-700 min-h-screen">
-            <ImageComponent currentUser={currentUser} profilePic={profilePic} />
+            <ImageComponent userId={userId} profilePic={profilePic}  fetchUserProfile={fetchUserProfile}/>
 
         </div>
         </>
