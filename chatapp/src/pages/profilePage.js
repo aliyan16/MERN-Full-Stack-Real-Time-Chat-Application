@@ -2,6 +2,7 @@ import ImageComponent from "../Components/profileComponents/imageComponent"
 import axios from "axios"
 import { useEffect,useState } from "react"
 import { useParams } from "react-router-dom"
+import UserStatus from "../Components/profileComponents/statusComponent"
 function UserProfile({currentUser}){
     const [profilePic,setProfilePic]=useState(null)
     const [userStatus,setUserStatus]=useState('')
@@ -33,7 +34,11 @@ function UserProfile({currentUser}){
     return(
         <>
         <div className="bg-gray-700 min-h-screen">
+            <div className="bg-white w-1/12 rounded-md text-center ml-12 mt-20">
+                <h3 className="text-gray-800">Hello {currentUser.lastName} !</h3>
+            </div>
             <ImageComponent userId={userId} profilePic={profilePic}  fetchUserProfile={fetchUserProfile}/>
+            <UserStatus currentUser={currentUser} />
 
         </div>
         </>

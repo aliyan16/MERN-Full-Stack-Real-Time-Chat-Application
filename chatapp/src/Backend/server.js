@@ -118,7 +118,8 @@ app.post('/signin',async(req,res)=>{
                 firstName:user.firstName,
                 lastName:user.lastName,
                 email:user.email,
-                profilePic:user.profilePic
+                profilePic:user.profilePic,
+                statusMessage:user.statusMessage
             }
         })
 
